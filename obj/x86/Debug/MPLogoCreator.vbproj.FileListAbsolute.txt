@@ -1,0 +1,19 @@
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Klassisch\background.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Klassisch\overlay.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Klassisch\sample.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Modern\background.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Modern\Overlay.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Modern\sample.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Simple\background.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Simple\overlay.png
+C:\Stuff\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Simple\sample.png
+C:\Stuff\MPLogoCreator\bin\Debug\MPLogoCreator.exe
+C:\Stuff\MPLogoCreator\bin\Debug\MPLogoCreator.pdb
+C:\Stuff\MPLogoCreator\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.MainForm.resources
+C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.vbproj.GenerateResource.Cache
+C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.exe
+C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.pdb
+C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.NewDesign.resources
+C:\Stuff\MPLogoCreator\bin\Debug\Source\transparent.png
+C:\Stuff\MPLogoCreator\bin\Debug\Source\sampleLogo.png
