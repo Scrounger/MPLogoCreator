@@ -17,3 +17,22 @@ C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.pdb
 C:\Stuff\MPLogoCreator\obj\x86\Debug\MPLogoCreator.NewDesign.resources
 C:\Stuff\MPLogoCreator\bin\Debug\Source\transparent.png
 C:\Stuff\MPLogoCreator\bin\Debug\Source\sampleLogo.png
+Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.exe
+Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.pdb
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Klassisch\background.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Klassisch\overlay.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Klassisch\sample.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Modern\background.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Modern\Overlay.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Modern\sample.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Simple\background.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Simple\overlay.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Design\Deutsches Logo Pack - Simple\sample.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Source\sampleLogo.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\Source\transparent.png
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\MPLogoCreator.exe
+Z:\Projekte\MediaPortal\MPLogoCreator\bin\Debug\MPLogoCreator.pdb
+Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\ResolveAssemblyReference.cache
+Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.MainForm.resources
+Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.NewDesign.resources
+Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.vbproj.GenerateResource.Cache

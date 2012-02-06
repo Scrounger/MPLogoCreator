@@ -56,18 +56,17 @@
     <Compile Include="MPLogoCreator.Designer.vb">
       <DependentUpon>MPLogoCreator.vb</DependentUpon>
     </Compile>
-    <Compile Include="MPLogoCreator.vb" />
+    <Compile Include="MPLogoCreator.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="NewDesign.Designer.vb">
       <DependentUpon>NewDesign.vb</DependentUpon>
     </Compile>
-    <Compile Include="NewDesign.vb" />
+    <Compile Include="NewDesign.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
-    <Folder Include="Design" />
-    <Folder Include="Design\Deutsches Logo Pack - Klassisch" />
-    <Folder Include="Design\Deutsches Logo Pack - Modern" />
-    <Folder Include="Design\Deutsches Logo Pack - Simple" />
-    <Folder Include="Source" />
     <EmbeddedResource Include="MPLogoCreator.resx">
       <DependentUpon>MPLogoCreator.vb</DependentUpon>
     </EmbeddedResource>

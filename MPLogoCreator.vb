@@ -1,4 +1,23 @@
-﻿
+﻿#Region "Copyright (C) 2005-2011 Team MediaPortal"
+
+' Copyright (C) 2005-2011 Team MediaPortal
+' http://www.team-mediaportal.com
+' 
+' MediaPortal is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 2 of the License, or
+' (at your option) any later version.
+' 
+' MediaPortal is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with MediaPortal. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Threading
 
 Public Partial Class MainForm
@@ -7,184 +26,239 @@ Public Partial Class MainForm
 		Me.InitializeComponent()
 		
 	End Sub
-	
-	Sub MainFormLoad(sender As Object, e As EventArgs)
-		
-		Dim _EditButton As New DataGridViewButtonColumn
-		
-		with _editbutton
-			.DefaultCellStyle.Padding = new Padding(5,20,5,20)
-			.HeaderText = "Edit"
-			.Text = "Edit"
-			.Name = "Edit"
-			.FlatStyle = flatstyle.flat
-			.UseColumnTextForButtonValue = True
-			'_editbutton.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-			.Width = 60
-		End With
 
-		Dim _DeleteButton As New DataGridViewButtonColumn
-		
-		with _DeleteButton
-			.DefaultCellStyle.Padding = new Padding(5,20,5,20)
-			.HeaderText = "Delete"
-			.Text = "Delete"
-			.Name = "Delete"
-			.FlatStyle = flatstyle.flat
-			.UseColumnTextForButtonValue = True
-			'_editbutton.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-			.Width = 60
-		End With
+    Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        End
+    End Sub
 
-		Me.DesignData.Columns.Add(_Editbutton)
-		Me.DesignData.Columns.Add(_DeleteButton)
-		
-		Me.tbHeight.Text = 200
-       	Me.tbWidth.Text = 200
-       	Me.tbOffset.Text = 6
-		
-		LoadAvailableDesigns
-	End Sub
+    Sub MainFormLoad(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+
+        Try
+            Dim _EditButton As New DataGridViewButtonColumn
+
+            With _EditButton
+                .DefaultCellStyle.Padding = New Padding(5, 20, 5, 20)
+                .HeaderText = "Edit"
+                .Text = "Edit"
+                .Name = "Edit"
+                .FlatStyle = FlatStyle.Flat
+                .UseColumnTextForButtonValue = True
+                '_editbutton.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
+                .Width = 60
+            End With
+
+            Dim _DeleteButton As New DataGridViewButtonColumn
+
+            With _DeleteButton
+                .DefaultCellStyle.Padding = New Padding(5, 20, 5, 20)
+                .HeaderText = "Delete"
+                .Text = "Delete"
+                .Name = "Delete"
+                .FlatStyle = FlatStyle.Flat
+                .UseColumnTextForButtonValue = True
+                '_editbutton.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
+                .Width = 60
+            End With
+
+            Me.DesignData.Columns.Add(_EditButton)
+            Me.DesignData.Columns.Add(_DeleteButton)
+
+            Me.tbHeight.Text = CStr(200)
+            Me.tbWidth.Text = CStr(200)
+            Me.tbOffset.Text = CStr(6)
+
+            LoadAvailableDesigns()
+
+        Catch ex As Exception
+            MsgBox("[MainFormLoad] Error !" & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
 	
 	public Sub LoadAvailableDesigns
-		
-		'DesignData mit allen Unterordnern füllen
-       	me.DesignData.Rows.Clear
-       	
-       	Dim _oDir As New System.IO.DirectoryInfo(application.StartupPath & "\Design")
-		Dim i As Integer = 0		
-	
-		For Each Dir As System.IO.DirectoryInfo In _odir.GetDirectories
-					
-			Me.DesignData.Rows.Add(CreateCloneImage(dir.fullname & "\sample.png"),false,dir.Name,dir.fullname & "\overlay.png")
-			Me.DesignData(2,i).Value = dir.Name
-			Me.DesignData(3,i).Value = dir.fullname & "\background.png"
-			Me.DesignData(4,i).Value = dir.fullname & "\overlay.png"
-			Me.DesignData(0,i).Dispose
-			
-			Me.DesignData.Item(2, i).Style.Font = New Font(Me.DesignData.Font, FontStyle.Bold)
-			
-			i = i +1
-		Next
-	
-	End Sub
-	
-	Sub BtNewDesignClick(sender As Object, e As EventArgs)
-			
-		Dim _NewDesign As Form = newdesign
-		newdesign.picBackground.Tag = ""
-		newdesign.picOverlay.Tag = ""
-		_newdesign.ShowDialog
 
-	End Sub
-	
-	Private Sub DataGridView1_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs)
-		
-		Select Case (e.ColumnIndex)
-			Case = 5
-				Dim _NewDesign As Form = newdesign
-				newdesign.picBackground.Tag = me.DesignData(3, e.RowIndex).Value
-				newdesign.picOverlay.Tag = Me.DesignData(4,e.RowIndex).Value
-				newdesign.tbDesignName.Text = Me.DesignData(2,e.RowIndex).Value
+        Try
+            'DesignData mit allen Unterordnern füllen
+            Me.DesignData.Rows.Clear()
 
-				_newdesign.ShowDialog
-								
-			Case = 6
-				Dim antwort As DialogResult
-				
-				antwort = msgbox("Would you like to delete the design", MsgBoxStyle.Question + msgboxstyle.YesNo,"Delete Design?")
-				
-				If antwort = vbyes Then				
-										
-					Dim DeletePath As String = application.StartupPath & "\Design\" & Me.DesignData(2,e.RowIndex).Value
-					
-					Me.DesignData.Rows.Clear					
-					io.Directory.Delete(DeletePath,true)
-					LoadAvailableDesigns
-				End If
-				
-		End Select
-	End Sub
+            Dim _oDir As New System.IO.DirectoryInfo(Application.StartupPath & "\Design")
+            Dim i As Integer = 0
+
+            For Each Dir As System.IO.DirectoryInfo In _oDir.GetDirectories
+
+                Me.DesignData.Rows.Add(CreateCloneImage(Dir.FullName & "\sample.png"), False, Dir.Name, Dir.FullName & "\overlay.png")
+                Me.DesignData(2, i).Value = Dir.Name
+                Me.DesignData(3, i).Value = Dir.FullName & "\background.png"
+                Me.DesignData(4, i).Value = Dir.FullName & "\overlay.png"
+                Me.DesignData(0, i).Dispose()
+
+                Me.DesignData.Item(2, i).Style.Font = New Font(Me.DesignData.Font, FontStyle.Bold)
+
+                i = i + 1
+            Next
+        Catch ex As Exception
+            MsgBox("[LoadAvailableDesigns] Error !" & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+
+    End Sub
+	
+    Sub BtNewDesignClick(ByVal sender As Object, ByVal e As EventArgs) Handles btNewDesign.Click
+
+        Try
+            Dim _NewDesign As Form = NewDesign
+            NewDesign.picBackground.Tag = ""
+            NewDesign.picOverlay.Tag = ""
+            _NewDesign.ShowDialog()
+        Catch ex As Exception
+            MsgBox("[BtNewDesignClick] Error !" & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+
+    End Sub
+	
+    Private Sub DataGridView1_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DesignData.CellClick
+        Try
+            Select Case (e.ColumnIndex)
+                Case Is = 5
+                    Dim _NewDesign As Form = NewDesign
+                    NewDesign.picBackground.Tag = Me.DesignData(3, e.RowIndex).Value
+                    NewDesign.picOverlay.Tag = Me.DesignData(4, e.RowIndex).Value
+                    NewDesign.tbDesignName.Text = Me.DesignData(2, e.RowIndex).Value.ToString
+
+                    _NewDesign.ShowDialog()
+
+                Case Is = 6
+                    Dim antwort As MsgBoxResult
+                    antwort = MsgBox("Really delete the Desing?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Overwrite Design?")
+
+                    If antwort = vbYes Then
+
+                        Dim DeletePath As String = Application.StartupPath & "\Design\" & Me.DesignData(2, e.RowIndex).Value.ToString
+
+                        Me.DesignData.Rows.Clear()
+                        IO.Directory.Delete(DeletePath, True)
+                        LoadAvailableDesigns()
+                    End If
+
+            End Select
+        Catch ex As Exception
+            MsgBox("[DataGridView1_CellClick] Error !" & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
 		
 		Public shared function CreateCloneImage (path As String) As Bitmap
-			
-			'Work around: ImageClone erstellen, weil sonst löschen net funzt -> verhindert (... used by other process)
-			Dim bmpClone As Bitmap 'the clone to be loaded to a PictureBox
-			Dim bmpOriginal As System.Drawing.Image = System.Drawing.Image.FromFile(path) 
-			bmpClone = New Bitmap(bmpOriginal.Width, bmpOriginal.Height)
-			Dim gr As Graphics = Graphics.FromImage(bmpClone) 'get object representing clone's currently empty drawing surface
-			gr.SmoothingMode = Drawing2D.SmoothingMode.None
-			gr.InterpolationMode =Drawing2D.InterpolationMode.NearestNeighbor
-			gr.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighSpeed
-			gr.DrawImage(bmpOriginal, 0, 0, bmpOriginal.Width,bmpOriginal.Height) 'copy original image onto this surface
-			gr.Dispose()
-			
-			bmpOriginal.Dispose()
-			Return bmpClone
-			
+
+        Dim bmpClone As Bitmap = Nothing 'the clone to be loaded to a PictureBox
+
+        Try
+            'Work around: ImageClone erstellen, weil sonst löschen net funzt -> verhindert (... used by other process)
+
+            Dim bmpOriginal As System.Drawing.Image = System.Drawing.Image.FromFile(path)
+            bmpClone = New Bitmap(bmpOriginal.Width, bmpOriginal.Height)
+            Dim gr As Graphics = Graphics.FromImage(bmpClone) 'get object representing clone's currently empty drawing surface
+            gr.SmoothingMode = Drawing2D.SmoothingMode.None
+            gr.InterpolationMode = Drawing2D.InterpolationMode.NearestNeighbor
+            gr.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighSpeed
+            gr.DrawImage(bmpOriginal, 0, 0, bmpOriginal.Width, bmpOriginal.Height) 'copy original image onto this surface
+            gr.Dispose()
+
+            bmpOriginal.Dispose()
+
+        Catch ex As Exception
+            MsgBox("[CreateCloneImage] Error !" & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+
+        Return bmpClone
 		End function
 	
+    Sub ButtonCreateClick(ByVal sender As Object, ByVal e As EventArgs) Handles buttonCreate.Click
 
-	
-	Sub ButtonCreateClick(sender As Object, e As EventArgs)
-		
-		For i = 0 To Me.DesignData.Rows.Count -1
-				If Me.DesignData.Item(1,i).Value = True Then
-				
-				if io.Directory.Exists(me.tbSourceLogo.Text) = true and io.Directory.Exists(Me.tbSavePath.text) = true then
-		        try
-		        
-		        ' Verzeichnis, dessen Dateien ermittelt werden sollen
-		        Dim TVLogoPath As String = me.tbSourceLogo.Text
-		
-		        ' ggf. abschließenden Backslash entfernen
-		        If TVLogoPath.EndsWith("\") And TVLogoPath.Length > 3 Then
-		            TVLogoPath = TVLogoPath.Substring(0, TVLogoPath.Length - 1)
-		        End If
-		
-		        ' Directory-Object erstellen
-		        Dim oDir As New System.IO.DirectoryInfo(TVLogoPath)
-		
-		        ' alle Dateien des Ordners
-		        Dim oFiles As System.IO.FileInfo() = oDir.GetFiles()
-		
-		        ' Datei-Array durchlaufen
-		        Dim oFile As System.IO.FileInfo
-		
-		            For Each oFile In oFiles
-		
-						if io.Path.GetExtension(ofile.FullName) = ".png" then
-			                    Dim LayerBG As Image = Bitmap.FromFile(Me.DesignData.Item(3,i).Value)
-			                    Dim Logo As Image = Bitmap.FromFile(oFile.FullName)
-			                    Dim LayerOverlay As Image = Bitmap.FromFile(Me.DesignData.Item(4,i).Value)
-			                    
-			                    Dim b As New Bitmap(CInt(Me.tbWidth.Text), CInt(Me.tbHeight.text))
-			                    Dim g As Graphics = Graphics.FromImage(b)
-			                    g.DrawImage(LayerBG, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.text))
-			                    g.DrawImage(Logo, cint(me.tbOffset.Text), cint(me.tbOffset.Text),CInt(Me.tbWidth.Text)- 2* cint(me.tbOffset.Text), CInt(Me.tbHeight.text)- 2* cint(me.tbOffset.Text))
-			                    g.DrawImage(LayerOverlay, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.text))
-			                                        
-			                    b.Save(Me.tbSavePath.text & "\" & io.Path.GetFileName(ofile.FullName).ToString)
-			            End If
-		            
-		            Next
-		            
-				Catch ex As Exception
-				msgbox("Error creating logos - " & ex.Message & " - " & ex.StackTrace)
-				End Try
-				
-			Else
-				
-				If io.Directory.Exists(Me.tbSourceLogo.Text) = False Then
-					msgbox("Source path not found !", MsgBoxStyle.Critical,"Warning...")
-				End If
-				If io.Directory.Exists(Me.tbSavePath.text) = False Then
-					msgbox("Save path not found !", MsgBoxStyle.Critical,"Warning...")
-				End If
-			
-			End If
-		
-		End If	
-		Next		
-	End Sub
+        Try
+            For i = 0 To Me.DesignData.Rows.Count - 1
+                If CBool(Me.DesignData.Item(1, i).Value) = True Then
+
+                    If IO.Directory.Exists(Me.tbSourceLogo.Text) = True And IO.Directory.Exists(Me.tbSavePath.Text) = True Then
+                        Try
+
+                            ' Verzeichnis, dessen Dateien ermittelt werden sollen
+                            Dim TVLogoPath As String = Me.tbSourceLogo.Text
+
+                            ' ggf. abschließenden Backslash entfernen
+                            If TVLogoPath.EndsWith("\") And TVLogoPath.Length > 3 Then
+                                TVLogoPath = TVLogoPath.Substring(0, TVLogoPath.Length - 1)
+                            End If
+
+                            ' Directory-Object erstellen
+                            Dim oDir As New System.IO.DirectoryInfo(TVLogoPath)
+
+                            ' alle Dateien des Ordners
+                            Dim oFiles As System.IO.FileInfo() = oDir.GetFiles()
+
+                            ' Datei-Array durchlaufen
+                            Dim oFile As System.IO.FileInfo
+
+                            Me.ProgressBar.Value = 0
+                            Me.ProgressBar.Maximum = oFiles.Length
+                            Me.ProgressLabel.Visible = True
+                            Me.ProgressLabel.Text = Me.DesignData.Item(2, i).Value.ToString
+                            Application.DoEvents()
+
+
+                            For Each oFile In oFiles
+                                Me.ProgressBar.PerformStep()
+
+
+                                If IO.Path.GetExtension(oFile.FullName) = ".png" Then
+                                    Dim LayerBG As Image = Bitmap.FromFile(Me.DesignData.Item(3, i).Value.ToString)
+                                    Dim Logo As Image = Bitmap.FromFile(oFile.FullName)
+                                    Dim LayerOverlay As Image = Bitmap.FromFile(Me.DesignData.Item(4, i).Value.ToString)
+
+                                    Dim b As New Bitmap(CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
+                                    Dim g As Graphics = Graphics.FromImage(b)
+                                    g.DrawImage(LayerBG, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
+                                    g.DrawImage(Logo, CInt(Me.tbOffset.Text), CInt(Me.tbOffset.Text), CInt(Me.tbWidth.Text) - 2 * CInt(Me.tbOffset.Text), CInt(Me.tbHeight.Text) - 2 * CInt(Me.tbOffset.Text))
+                                    g.DrawImage(LayerOverlay, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
+
+                                    IO.Directory.CreateDirectory(Me.tbSavePath.Text & "\" & Me.DesignData.Item(2, i).Value.ToString)
+                                    b.Save(Me.tbSavePath.Text & "\" & Me.DesignData.Item(2, i).Value.ToString & "\" & IO.Path.GetFileName(oFile.FullName).ToString)
+                                End If
+
+                            Next
+
+                        Catch ex As Exception
+                            MsgBox("Error creating logos - " & ex.Message & " - " & ex.StackTrace)
+                        End Try
+
+                    Else
+
+                        If IO.Directory.Exists(Me.tbSourceLogo.Text) = False Then
+                            MsgBox("Source path not found !", MsgBoxStyle.Critical, "Warning...")
+                            Exit Sub
+                        End If
+                        If IO.Directory.Exists(Me.tbSavePath.Text) = False Then
+                            MsgBox("Save path not found !", MsgBoxStyle.Critical, "Warning...")
+                        End If
+                        Exit Sub
+                    End If
+
+                End If
+            Next
+
+            MsgBox("Logos successfully saved", MsgBoxStyle.Information)
+
+            Me.ProgressBar.Value = 0
+            Me.ProgressLabel.Visible = False
+
+        Catch ex As Exception
+            MsgBox("[ButtonCreateClick] Error !" & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+    Private Sub CheckBoxSelector_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxSelector.CheckedChanged
+        For i = 0 To Me.DesignData.Rows.Count - 1
+            If CheckBoxSelector.CheckState = CheckState.Checked Then
+                Me.DesignData.Item(1, i).Value = True
+            Else
+                Me.DesignData.Item(1, i).Value = False
+            End If
+        Next
+    End Sub
 End Class
