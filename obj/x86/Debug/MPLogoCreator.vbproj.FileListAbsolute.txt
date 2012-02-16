@@ -36,3 +36,5 @@ Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\ResolveAssemblyReference.cac
 Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.MainForm.resources
 Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.NewDesign.resources
 Z:\Projekte\MediaPortal\MPLogoCreator\obj\x86\Debug\MPLogoCreator.vbproj.GenerateResource.Cache
+D:\Projekte\MPLogoCreator\obj\x86\Debug\MPLogoCreator.exe
+D:\Projekte\MPLogoCreator\obj\x86\Debug\MPLogoCreator.pdb
