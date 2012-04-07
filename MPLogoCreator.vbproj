@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Program.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
+    <Compile Include="setting.vb" />
     <EmbeddedResource Include="MPLogoCreator.resx">
       <DependentUpon>MPLogoCreator.vb</DependentUpon>
     </EmbeddedResource>
@@ -106,5 +107,13 @@
     <None Include="Source\transparent.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\StreamedMP - Modern\background.png" />
+    <Content Include="Design\StreamedMP - Modern\overlay.png" />
+    <Content Include="Design\StreamedMP - Modern\sample.png" />
+    <Content Include="Settings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

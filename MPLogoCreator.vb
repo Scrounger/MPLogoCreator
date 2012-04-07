@@ -33,6 +33,18 @@ Public Partial Class MainForm
 
     Sub MainFormLoad(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
+        If Settings.GetSetting("FolderStructure") = "TvRadio" Then
+            RBtvRadio.Checked = True
+            tbSourceLogo.Enabled = False
+            tbSourceRadio.Enabled = True
+            tbSourceTv.Enabled = True
+        Else
+            RBdesign.Checked = True
+            tbSourceLogo.Enabled = True
+            tbSourceRadio.Enabled = False
+            tbSourceTv.Enabled = False
+        End If
+
         Try
             Dim _EditButton As New DataGridViewButtonColumn
 
@@ -44,7 +56,7 @@ Public Partial Class MainForm
                 .FlatStyle = FlatStyle.Flat
                 .UseColumnTextForButtonValue = True
                 '_editbutton.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-                .Width = 60
+                .Width = 100
             End With
 
             Dim _DeleteButton As New DataGridViewButtonColumn
@@ -57,7 +69,7 @@ Public Partial Class MainForm
                 .FlatStyle = FlatStyle.Flat
                 .UseColumnTextForButtonValue = True
                 '_editbutton.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-                .Width = 60
+                .Width = 100
             End With
 
             Me.DesignData.Columns.Add(_EditButton)
@@ -66,6 +78,11 @@ Public Partial Class MainForm
             Me.tbHeight.Text = CStr(200)
             Me.tbWidth.Text = CStr(200)
             Me.tbOffset.Text = CStr(6)
+
+            Me.tbSourceLogo.Text = Settings.GetSetting("SourcePath")
+            Me.tbSavePath.Text = Settings.GetSetting("SavePath")
+            Me.tbSourceTv.Text = Settings.GetSetting("SourceTv")
+            Me.tbSourceRadio.Text = Settings.GetSetting("SourceRadio")
 
             LoadAvailableDesigns()
 
@@ -86,6 +103,8 @@ Public Partial Class MainForm
             For Each Dir As System.IO.DirectoryInfo In _oDir.GetDirectories
 
                 Me.DesignData.Rows.Add(CreateCloneImage(Dir.FullName & "\sample.png"), False, Dir.Name, Dir.FullName & "\overlay.png")
+                Me.DesignData(0, i).Style.BackColor = Color.Black
+
                 Me.DesignData(2, i).Value = Dir.Name
                 Me.DesignData(3, i).Value = Dir.FullName & "\background.png"
                 Me.DesignData(4, i).Value = Dir.FullName & "\overlay.png"
@@ -170,79 +189,116 @@ Public Partial Class MainForm
 		End function
 	
     Sub ButtonCreateClick(ByVal sender As Object, ByVal e As EventArgs) Handles buttonCreate.Click
+        Try
+            If IO.Directory.Exists(Me.tbSavePath.Text) = True Then
 
+                If RBtvRadio.Checked = True Then
+                    If Not String.IsNullOrEmpty(tbSourceTv.Text) Or Not String.IsNullOrEmpty(tbSourceRadio.Text) Then
+                        If IO.Directory.Exists(Me.tbSourceTv.Text) = True And IO.Directory.Exists(Me.tbSourceRadio.Text) = True Then
+                            CreateLogos(Me.tbSourceTv.Text, "\tv\logos")
+                            CreateLogos(Me.tbSourceRadio.Text, "\Radio")
+                        Else
+                            MsgBox("tv / radio Source path not found !", MsgBoxStyle.Critical, "Warning...")
+                            Exit Sub
+                        End If
+                    End If
+
+                Else
+                    If Not String.IsNullOrEmpty(Me.tbSourceLogo.Text) Then
+                        If IO.Directory.Exists(Me.tbSourceLogo.Text) = True Then
+                            CreateLogos(Me.tbSourceLogo.Text)
+                        Else
+                            MsgBox("Source path not found !", MsgBoxStyle.Critical, "Warning...")
+                            Exit Sub
+                        End If
+                    End If
+                End If
+            Else
+                MsgBox("Save path not found !", MsgBoxStyle.Critical, "Warning...")
+            End If
+
+            MsgBox("Logos successfully saved", MsgBoxStyle.Information)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+
+    End Sub
+    Private Sub CreateLogos(ByVal SourcePath As String, Optional ByVal subFolder As String = "")
         Try
             For i = 0 To Me.DesignData.Rows.Count - 1
                 If CBool(Me.DesignData.Item(1, i).Value) = True Then
 
-                    If IO.Directory.Exists(Me.tbSourceLogo.Text) = True And IO.Directory.Exists(Me.tbSavePath.Text) = True Then
-                        Try
+                    'If IO.Directory.Exists(SourcePath) = True And IO.Directory.Exists(Me.tbSavePath.Text) = True Then
+                    Try
 
-                            ' Verzeichnis, dessen Dateien ermittelt werden sollen
-                            Dim TVLogoPath As String = Me.tbSourceLogo.Text
+                        ' Verzeichnis, dessen Dateien ermittelt werden sollen
+                        Dim TVLogoPath As String = SourcePath
 
-                            ' ggf. abschließenden Backslash entfernen
-                            If TVLogoPath.EndsWith("\") And TVLogoPath.Length > 3 Then
-                                TVLogoPath = TVLogoPath.Substring(0, TVLogoPath.Length - 1)
+                        ' ggf. abschließenden Backslash entfernen
+                        If TVLogoPath.EndsWith("\") And TVLogoPath.Length > 3 Then
+                            TVLogoPath = TVLogoPath.Substring(0, TVLogoPath.Length - 1)
+                        End If
+
+                        ' Directory-Object erstellen
+                        Dim oDir As New System.IO.DirectoryInfo(TVLogoPath)
+
+                        ' alle Dateien des Ordners
+                        Dim oFiles As System.IO.FileInfo() = oDir.GetFiles()
+
+
+                        Dim oFile As System.IO.FileInfo
+
+                        Me.ProgressBar.Value = 0
+                        Me.ProgressBar.Maximum = oFiles.Length
+                        Me.ProgressLabel.Visible = True
+                        Me.ProgressLabel.Text = Me.DesignData.Item(2, i).Value.ToString
+                        Application.DoEvents()
+
+                        ' Datei-Array durchlaufen
+                        For Each oFile In oFiles
+                            Me.ProgressBar.PerformStep()
+
+                            If IO.Path.GetExtension(oFile.FullName) = ".png" Then
+                                Dim LayerBG As Image = Bitmap.FromFile(Me.DesignData.Item(3, i).Value.ToString)
+                                Dim Logo As Image = Bitmap.FromFile(oFile.FullName)
+                                Dim LayerOverlay As Image = Bitmap.FromFile(Me.DesignData.Item(4, i).Value.ToString)
+
+                                Dim b As New Bitmap(CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
+                                Dim g As Graphics = Graphics.FromImage(b)
+                                g.DrawImage(LayerBG, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
+                                g.DrawImage(Logo, CInt(Me.tbOffset.Text), CInt(Me.tbOffset.Text), CInt(Me.tbWidth.Text) - 2 * CInt(Me.tbOffset.Text), CInt(Me.tbHeight.Text) - 2 * CInt(Me.tbOffset.Text))
+                                g.DrawImage(LayerOverlay, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
+
+                                IO.Directory.CreateDirectory(Me.tbSavePath.Text & "\" & Me.DesignData.Item(2, i).Value.ToString & subFolder)
+                                b.Save(Me.tbSavePath.Text & "\" & Me.DesignData.Item(2, i).Value.ToString & subFolder & "\" & IO.Path.GetFileName(oFile.FullName).ToString)
+
                             End If
+                        Next
 
-                            ' Directory-Object erstellen
-                            Dim oDir As New System.IO.DirectoryInfo(TVLogoPath)
+                    Catch ex As Exception
+                        MsgBox("Error creating logos - " & ex.Message & " - " & ex.StackTrace)
+                    End Try
 
-                            ' alle Dateien des Ordners
-                            Dim oFiles As System.IO.FileInfo() = oDir.GetFiles()
+                    'Else
 
-                            ' Datei-Array durchlaufen
-                            Dim oFile As System.IO.FileInfo
-
-                            Me.ProgressBar.Value = 0
-                            Me.ProgressBar.Maximum = oFiles.Length
-                            Me.ProgressLabel.Visible = True
-                            Me.ProgressLabel.Text = Me.DesignData.Item(2, i).Value.ToString
-                            Application.DoEvents()
-
-
-                            For Each oFile In oFiles
-                                Me.ProgressBar.PerformStep()
-
-
-                                If IO.Path.GetExtension(oFile.FullName) = ".png" Then
-                                    Dim LayerBG As Image = Bitmap.FromFile(Me.DesignData.Item(3, i).Value.ToString)
-                                    Dim Logo As Image = Bitmap.FromFile(oFile.FullName)
-                                    Dim LayerOverlay As Image = Bitmap.FromFile(Me.DesignData.Item(4, i).Value.ToString)
-
-                                    Dim b As New Bitmap(CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
-                                    Dim g As Graphics = Graphics.FromImage(b)
-                                    g.DrawImage(LayerBG, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
-                                    g.DrawImage(Logo, CInt(Me.tbOffset.Text), CInt(Me.tbOffset.Text), CInt(Me.tbWidth.Text) - 2 * CInt(Me.tbOffset.Text), CInt(Me.tbHeight.Text) - 2 * CInt(Me.tbOffset.Text))
-                                    g.DrawImage(LayerOverlay, 0, 0, CInt(Me.tbWidth.Text), CInt(Me.tbHeight.Text))
-
-                                    IO.Directory.CreateDirectory(Me.tbSavePath.Text & "\" & Me.DesignData.Item(2, i).Value.ToString)
-                                    b.Save(Me.tbSavePath.Text & "\" & Me.DesignData.Item(2, i).Value.ToString & "\" & IO.Path.GetFileName(oFile.FullName).ToString)
-                                End If
-
-                            Next
-
-                        Catch ex As Exception
-                            MsgBox("Error creating logos - " & ex.Message & " - " & ex.StackTrace)
-                        End Try
-
-                    Else
-
-                        If IO.Directory.Exists(Me.tbSourceLogo.Text) = False Then
-                            MsgBox("Source path not found !", MsgBoxStyle.Critical, "Warning...")
-                            Exit Sub
-                        End If
-                        If IO.Directory.Exists(Me.tbSavePath.Text) = False Then
-                            MsgBox("Save path not found !", MsgBoxStyle.Critical, "Warning...")
-                        End If
-                        Exit Sub
-                    End If
+                    '    If IO.Directory.Exists(Me.tbSourceLogo.Text) = False Then
+                    '        MsgBox("Source path not found !", MsgBoxStyle.Critical, "Warning...")
+                    '        Exit Sub
+                    '    End If
+                    '    If IO.Directory.Exists(Me.tbSavePath.Text) = False Then
+                    '        MsgBox("Save path not found !", MsgBoxStyle.Critical, "Warning...")
+                    '    End If
+                    '    Exit Sub
+                    'End If
 
                 End If
             Next
 
-            MsgBox("Logos successfully saved", MsgBoxStyle.Information)
+            Settings.SetSetting("SourcePath", tbSourceLogo.Text)
+            Settings.SetSetting("SavePath", tbSavePath.Text)
+            Settings.SetSetting("SourceTv", tbSourceTv.Text)
+            Settings.SetSetting("SourceRadio", tbSourceRadio.Text)
 
             Me.ProgressBar.Value = 0
             Me.ProgressLabel.Visible = False
@@ -260,5 +316,20 @@ Public Partial Class MainForm
                 Me.DesignData.Item(1, i).Value = False
             End If
         Next
+    End Sub
+
+    Private Sub RBtvRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RBtvRadio.CheckedChanged
+        tbSourceLogo.Enabled = False
+        tbSourceRadio.Enabled = True
+        tbSourceTv.Enabled = True
+        Settings.SetSetting("FolderStructure", "TvRadio")
+
+    End Sub
+
+    Private Sub RBdesign_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RBdesign.CheckedChanged
+        tbSourceLogo.Enabled = True
+        tbSourceRadio.Enabled = False
+        tbSourceTv.Enabled = False
+        Settings.SetSetting("FolderStructure", "Design")
     End Sub
 End Class
