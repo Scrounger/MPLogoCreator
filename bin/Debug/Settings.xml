@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Settings>
+    <Key>SourcePath</Key>
+    <Value>D:\Projekte\Deutsches Logo Pack\Source\tv</Value>
+  </Settings>
+  <Settings>
+    <Key>SavePath</Key>
+    <Value>D:\Projekte\Deutsches Logo Pack\Realase\Logos</Value>
+  </Settings>
+  <Settings>
+    <Key>FolderStructure</Key>
+    <Value>Design</Value>
+  </Settings>
+  <Settings>
+    <Key>SourceTv</Key>
+    <Value>D:\Projekte\Deutsches Logo Pack\Source\tv</Value>
+  </Settings>
+  <Settings>
+    <Key>SourceRadio</Key>
+    <Value>D:\Projekte\Deutsches Logo Pack\Source\radio</Value>
+  </Settings>
+</NewDataSet>
