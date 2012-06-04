@@ -26,8 +26,8 @@ Partial Class MainForm
 	''' not be able to load this method if it was changed manually.
 	''' </summary>
 	Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.DesignData = New System.Windows.Forms.DataGridView
         Me.btNewDesign = New System.Windows.Forms.Button
         Me.buttonCreate = New System.Windows.Forms.Button
@@ -48,13 +48,13 @@ Partial Class MainForm
         Me.pictureBox1 = New System.Windows.Forms.PictureBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.tbSourceRadio = New System.Windows.Forms.TextBox
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.tbSourceTv = New System.Windows.Forms.TextBox
+        Me.Label6 = New System.Windows.Forms.Label
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
         Me.RBdesign = New System.Windows.Forms.RadioButton
         Me.RBtvRadio = New System.Windows.Forms.RadioButton
-        Me.tbSourceTv = New System.Windows.Forms.TextBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.tbSourceRadio = New System.Windows.Forms.TextBox
-        Me.Label7 = New System.Windows.Forms.Label
         Me.ColumnImage = New System.Windows.Forms.DataGridViewImageColumn
         Me.ColumnCheckBox = New System.Windows.Forms.DataGridViewCheckBoxColumn
         Me.ColumnDesign = New System.Windows.Forms.DataGridViewTextBoxColumn
@@ -72,6 +72,8 @@ Partial Class MainForm
         '
         Me.DesignData.AllowUserToAddRows = False
         Me.DesignData.AllowUserToDeleteRows = False
+        Me.DesignData.AllowUserToResizeColumns = False
+        Me.DesignData.AllowUserToResizeRows = False
         Me.DesignData.BackgroundColor = System.Drawing.Color.White
         Me.DesignData.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
         Me.DesignData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
@@ -83,6 +85,8 @@ Partial Class MainForm
         Me.DesignData.MultiSelect = False
         Me.DesignData.Name = "DesignData"
         Me.DesignData.RowHeadersVisible = False
+        Me.DesignData.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        Me.DesignData.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
         Me.DesignData.RowTemplate.Height = 100
         Me.DesignData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.DesignData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -269,6 +273,38 @@ Partial Class MainForm
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Directories"
         '
+        'tbSourceRadio
+        '
+        Me.tbSourceRadio.Location = New System.Drawing.Point(78, 109)
+        Me.tbSourceRadio.Name = "tbSourceRadio"
+        Me.tbSourceRadio.Size = New System.Drawing.Size(379, 20)
+        Me.tbSourceRadio.TabIndex = 28
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(5, 113)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(70, 13)
+        Me.Label7.TabIndex = 29
+        Me.Label7.Text = "Source radio:"
+        '
+        'tbSourceTv
+        '
+        Me.tbSourceTv.Location = New System.Drawing.Point(78, 69)
+        Me.tbSourceTv.Name = "tbSourceTv"
+        Me.tbSourceTv.Size = New System.Drawing.Size(379, 20)
+        Me.tbSourceTv.TabIndex = 26
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(5, 72)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(56, 13)
+        Me.Label6.TabIndex = 27
+        Me.Label6.Text = "Source tv:"
+        '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.RBdesign)
@@ -300,45 +336,13 @@ Partial Class MainForm
         Me.RBtvRadio.Text = "MediaPortal thumb"
         Me.RBtvRadio.UseVisualStyleBackColor = True
         '
-        'tbSourceTv
-        '
-        Me.tbSourceTv.Location = New System.Drawing.Point(78, 69)
-        Me.tbSourceTv.Name = "tbSourceTv"
-        Me.tbSourceTv.Size = New System.Drawing.Size(379, 20)
-        Me.tbSourceTv.TabIndex = 26
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(5, 72)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(56, 13)
-        Me.Label6.TabIndex = 27
-        Me.Label6.Text = "Source tv:"
-        '
-        'tbSourceRadio
-        '
-        Me.tbSourceRadio.Location = New System.Drawing.Point(78, 109)
-        Me.tbSourceRadio.Name = "tbSourceRadio"
-        Me.tbSourceRadio.Size = New System.Drawing.Size(379, 20)
-        Me.tbSourceRadio.TabIndex = 28
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(5, 113)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(70, 13)
-        Me.Label7.TabIndex = 29
-        Me.Label7.Text = "Source radio:"
-        '
         'ColumnImage
         '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle10.NullValue = CType(resources.GetObject("DataGridViewCellStyle10.NullValue"), Object)
-        DataGridViewCellStyle10.Padding = New System.Windows.Forms.Padding(10)
-        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.HotTrack
-        Me.ColumnImage.DefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.NullValue = CType(resources.GetObject("DataGridViewCellStyle1.NullValue"), Object)
+        DataGridViewCellStyle1.Padding = New System.Windows.Forms.Padding(10)
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.HotTrack
+        Me.ColumnImage.DefaultCellStyle = DataGridViewCellStyle1
         Me.ColumnImage.HeaderText = "Image"
         Me.ColumnImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom
         Me.ColumnImage.Name = "ColumnImage"

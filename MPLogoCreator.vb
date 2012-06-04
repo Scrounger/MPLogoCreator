@@ -136,6 +136,13 @@ Public Partial Class MainForm
     Private Sub DataGridView1_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DesignData.CellClick
         Try
             Select Case (e.ColumnIndex)
+                Case Is = 1
+                    If CBool(Me.DesignData(1, e.RowIndex).Value) = True Then
+                        Me.DesignData(1, e.RowIndex).Value = False
+                    Else
+                        Me.DesignData(1, e.RowIndex).Value = True
+                    End If
+
                 Case Is = 5
                     Dim _NewDesign As Form = NewDesign
                     NewDesign.picBackground.Tag = Me.DesignData(3, e.RowIndex).Value
@@ -163,7 +170,7 @@ Public Partial Class MainForm
         End Try
     End Sub
 		
-		Public shared function CreateCloneImage (path As String) As Bitmap
+    Public Shared Function CreateCloneImage(ByVal path As String) As Bitmap
 
         Dim bmpClone As Bitmap = Nothing 'the clone to be loaded to a PictureBox
 
@@ -186,7 +193,7 @@ Public Partial Class MainForm
         End Try
 
         Return bmpClone
-		End function
+    End Function
 	
     Sub ButtonCreateClick(ByVal sender As Object, ByVal e As EventArgs) Handles buttonCreate.Click
         Try
